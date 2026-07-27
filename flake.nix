@@ -77,7 +77,8 @@
             # `claude-science update`, so the flake never pins a version.
             runScript = pkgs.writeShellScript "claude-science-entry" ''
               set -eu
-              bin="''${CLAUDE_SCIENCE_BIN:-''${HOME:?HOME is unset; set CLAUDE_SCIENCE_BIN instead}/.local/bin/claude-science}"
+              # Must stay off PATH, or the raw binary shadows this wrapper.
+              bin="''${CLAUDE_SCIENCE_BIN:-''${HOME:?HOME is unset; set CLAUDE_SCIENCE_BIN instead}/.local/share/claude-science/bin/claude-science}"
               if [ ! -x "$bin" ]; then
                 echo "Downloading claude-science to $bin..." >&2
                 mkdir -p "$(dirname "$bin")"
